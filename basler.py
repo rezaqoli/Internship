@@ -18,9 +18,14 @@ y=int(720*1.3)
 def save_image(event,x,y,flags,param):
     if event==cv2.EVENT_LBUTTONDBLCLK:
         cv2.imwrite('binarized_image.png',opening2)
-        
+        height,width= opening2.shape[:2]
+        print('height:' + str(height)+'\t'+'width:'+str(width)+'\n' )
         #cv2.imwrite('binarized_image.png',cv2.bitwise_and(gray,gray,mask=cv2.bitwise_not(opening2)))
-        
+        for i in range(8):
+            for j in range(8):
+                 parts[i][j]=opening2[0 if i==0 else (i-1)*243:i*243][0 if j==0 else (j-1)*324:j*324]
+                
+        cv2.imshow('hey',parts[1][1])
         
 
 while camera.IsGrabbing():
@@ -64,6 +69,11 @@ while camera.IsGrabbing():
         #cv2.resizeWindow('GAUS_MORPH', 1080, 720)
         #cv2.imshow('GAUS_MORPH', opening)
 
+        #Finfing Forground Area
+        dist_transform = cv2.distanceTransform(opening2,cv2.DIST_L2,5)
+        cv2.namedWindow('Distance transform', cv2.WINDOW_NORMAL| cv2.WINDOW_GUI_NORMAL)
+        cv2.resizeWindow('Distance transform', x, y)
+        cv2.imshow('Distance transform', dist_transform)   
         #MOUSE EVENT
         cv2.setMouseCallback('MEAN_MOTPH',save_image)
 
