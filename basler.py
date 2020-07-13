@@ -42,6 +42,7 @@ def save_image(event,x,y,flags,param):
         markers = cv2.watershed(img,markers)
         img[markers == -1] = [255,0,0]
         cv2.imwrite('picture.png',img)
+        print(ret)
         
 
 while camera.IsGrabbing():
@@ -75,7 +76,7 @@ while camera.IsGrabbing():
         #cv2.imshow('GAUS', th3)
 
         #MORPHOLOGY
-        kernel=np.ones((2,2),np.uint8)
+        kernel=np.ones((4,4),np.uint8)
         #opening = cv2.morphologyEx(th3, cv2.MORPH_OPEN, kernel)
         opening2 = cv2.morphologyEx(th2, cv2.MORPH_OPEN, kernel)
         cv2.namedWindow('MEAN_MOTPH', cv2.WINDOW_NORMAL| cv2.WINDOW_GUI_NORMAL)
