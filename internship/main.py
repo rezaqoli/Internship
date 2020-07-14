@@ -1,13 +1,20 @@
-from PySide2.QtWidgets import QApplication
-from PySide2.QtQuick import QQuickView
-from PySide2.QtCore import QUrl
+#!/usr/bin/python
+import sys
+from PySide2.QtWidgets import QApplication, QPushButton
+from PySide2.QtCore import Slot
 
-app = QApplication([])
-view = QQuickView()
-url = QUrl("view.qml")
+# Greetings
+@Slot()
+def say_hello():
+    print("Button clicked, Hello!")
 
-view.setSource(url)
-view.setResizeMode(QQuickView.SizeRootObjectToView)
-view.show()
+# Create the Qt Application
+app = QApplication(sys.argv)
+# Create a button
+button = QPushButton("Click me")
+# Connect the button to the function
+button.clicked.connect(say_hello)
+# Show the button
+button.show()
+# Run the main Qt loop
 app.exec_()
-
