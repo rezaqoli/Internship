@@ -1,34 +1,19 @@
 #!/usr/bin/python
 import sys
-from PySide2.QtWidgets import (QLineEdit, QPushButton, QApplication,
-    QVBoxLayout, QDialog)
+from PySide2.QtWidgets import QApplication, QMainWindow
+from PySide2.QtCore import QFile
+from ui_MainWindow import Ui_MainWindow
 
-class Form(QDialog):
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
 
-    def __init__(self, parent=None):
-        super(Form, self).__init__(parent)
-        # Create widgets
-        self.edit = QLineEdit("Write my name here")
-        self.button = QPushButton("Show Greetings")
-        # Create layout and add widgets
-        layout = QVBoxLayout()
-        layout.addWidget(self.edit)
-        layout.addWidget(self.button)
-        # Set dialog layout
-        self.setLayout(layout)
-        # Add button signal to greetings slot
-        self.button.clicked.connect(self.greetings)
-
-    # Greets the user
-    def greetings(self):
-        print ("Hello %s" % self.edit.text())
-
-if __name__ == '__main__':
-    # Create the Qt Application
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    # Create and show the form
-    form = Form()
-    form.show()
-    # Run the main Qt loop
-    sys.exit(app.exec_())
 
+    window = MainWindow()
+    window.show()
+
+    sys.exit(app.exec_())
