@@ -15,6 +15,10 @@ class Window(QWidget):
         text1=QLabel("Hello World",self)
         text1.move(100,50)
         text.move(200,150)
+        enterButton=QPushButton('Enter',self)
+        exitButton=QPushButton('Exit',self)
+        enterButton.move(100,80)
+        exitButton.move(200,80)
         self.show()
         
 
