@@ -34,43 +34,31 @@ class camera_grabber():
 
 grabber=camera_grabber()
 for frame in grabber.grab():
-    #redChannel=frame[:,:,2]
-    #redChannel=cv2.blur(redChannel,(5,5))
-    #thresh=cv2.adaptiveThreshold(redChannel,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,13,11,None)
+    redChannel=frame[:,:,2]
+    
+    redChannel=cv2.blur(redChannel,(3,3))
+    thresh=cv2.adaptiveThreshold(redChannel,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,13,11,None)
     #ret,thresh=cv2.threshold(redChannel,220,255,cv2.THRESH_BINARY)
-    hsv=cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-    # Range for lower red
-    lower_red = np.array([0,100,70])
-    upper_red = np.array([10,255,255])
-    mask1 = cv2.inRange(hsv, lower_red, upper_red)
 
-    # Range for upper range
-    lower_red = np.array([170,100,70])
-    upper_red = np.array([180,255,255])
-    mask2 = cv2.inRange(hsv,lower_red,upper_red)
+    #sobelx64f = cv2.Sobel(redChannel,cv2.CV_64F,1,0,ksize=3)
+    #abs_sobel64f = np.absolute(sobelx64f)
+    #sobel_8u = np.uint8(abs_sobel64f)
+    #sobely = cv2.Sobel(redChannel,cv2.CV_64F,0,1,ksize=5)
+    #laplacian = cv2.Laplacian(redChannel,cv2.CV_64F)
 
-    #mask1 = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((3,3),np.uint8))
-    #mask1 = cv2.morphologyEx(mask, cv2.MORPH_DILATE, np.ones((3,3),np.uint8))
-
-
-    #creating an inverted mask to segment out the cloth from the frame
-    #mask2 = cv2.bitwise_not(mask1)
-
-
-    #Segmenting the cloth out of the frame using bitwise and with the inverted mask
-    mask2+=mask1
-
-    mask2 = cv2.morphologyEx(mask2, cv2.MORPH_OPEN, np.ones((3,3),np.uint8))
-    res1 = cv2.bitwise_and(frame,frame,mask=mask2)
+    #edges = cv2.Canny(redChannel,80,255)
+    #cv2.namedWindow('CANY', cv2.WINDOW_NORMAL | cv2.WINDOW_GUI_NORMAL)
+    #cv2.resizeWindow('CANY', 1080, 720)
+    #cv2.imshow('CANY',edges)
 
 
     cv2.namedWindow('img', cv2.WINDOW_NORMAL | cv2.WINDOW_GUI_NORMAL)
     cv2.resizeWindow('img', 1080, 720)
-    cv2.imshow('img',mask2)
+    cv2.imshow('img',redChannel)
 
     cv2.namedWindow('mask', cv2.WINDOW_NORMAL | cv2.WINDOW_GUI_NORMAL)
     cv2.resizeWindow('mask', 1080, 720)
-    cv2.imshow('mask',frame)
+    cv2.imshow('mask',thresh)
     if cv2.waitKey(1)==ord('q'):
         break
 grabber.stop()
